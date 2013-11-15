@@ -13,30 +13,30 @@ type expr =
     | Array of string * expr
 
 type stmt = 
-    Block of stmt list
+   (*Block of stmt list*) 
     | Expr of expr
-    | Return of expr
+   (*| Return of expr
     | If of expr * stmt * stmt (* How to account for Block([]) *)
-    | While of expr * stmt
+    | While of expr * stmt *) 
     (* vdecl? *)
 
-type func_decl = {
-    rettype : typeConst; (* ? *)
+ type func_decl = {
+    rtype : typeConst; (* ? *)
     fname   : string;
-    formals : string list;
     locals  : string list;
     body    : stmt list;
 }
+    (*formals : string list;*)
 
 (*?*)
-type var_decl = {
+ type var_decl = {
     vartype : typeConst;
     varname : string;
 }
 
 type program = var_decl list * func_decl list
 
-let string_of_expr = function
+(* let string_of_expr = function
     Int(l) -> string_of_int l
     | Dbl(l) -> string_of_float l
     | Id(s) -> s
@@ -80,4 +80,4 @@ let string_of_fdecl fdecl =
 
 let string_of_program (vars, funcs) =
     String.concat "" (List.map string_of_vdecl vars) ^ "\n" ^
-    String.concat "\n" (List.map string_of_fdecl funcs)
+    String.concat "\n" (List.map string_of_fdecl funcs) *)
