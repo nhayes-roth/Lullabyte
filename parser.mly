@@ -55,39 +55,34 @@ expr:
 
 
  program: 
-    /* nothing */        { [], [] }
-    | program vdecl { ($2 :: fst $1), snd $1 }
-    | program fdecl { fst $1, ($2 :: snd $1) }
+    /* nothing */        { [] }
+    /*| program vdecl { ($2 :: fst $1), snd $1 }*/
+    | program fdecl { $2 :: $1 }
 
 
 fdecl:
-     typeConst ID LPAREN /* formals_opt */ RPAREN LBRACE vdecl_list stmt_list /* stmt_list*/ RBRACE
+     typeConst ID LPAREN formals_opt RPAREN LBRACE vdecl_list stmt_list RBRACE
                     { { 
                         rtype = $1;
                         fname = $2;
-                        locals = List.rev $6; 
-                        body = List.rev $7 } }
+                        formals = $4;
+                        locals = List.rev $7; 
+                        body = List.rev $8 } }
                         
                         /*
-                        formals = $4;
                         body = List.rev $8 } } */
 /*reduced 4 rules?*/
-/*
- formals_opt:
+
+formals_opt:
                             { [] }
     | formal_list           { List.rev $1 } 
 
- formal_list:
+formal_list:
     formal_decl                         { [$1] }
     | formal_list COMMA formal_decl     { $3 :: $1 }
-*/
-    
-/*
-formal_decl:
-     typeConst ID
-             { { formname = $2;
-                 formtype = $1; } }
-*/
+
+formal_decl: typeConst ID { { formtype = $1; formname = $2 } }
+
  
 typeConst:
     INT                     { Integer }
@@ -113,19 +108,16 @@ stmt:
 */
 
  
-vdecl:
-    typeConst ID SEMI           
-            { { vartype = $1;
-                varname = $2 } }
+vdecl: typeConst ID SEMI { { varname = $2; vartype = $1 } }
 
 vdecl_list:
          { [] }
   | vdecl_list vdecl { $2 :: $1 }
 
-
 actuals_opt: 
        { [] }
     | actuals_list  {List.rev $1}
+    
 
 actuals_list:
     expr                        { [$1] }

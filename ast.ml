@@ -14,29 +14,37 @@ type expr =
 
 type stmt = 
    (*Block of stmt list*) 
-    | Expr of expr
+    Expr of expr
    (*| Return of expr
     | If of expr * stmt * stmt (* How to account for Block([]) *)
     | While of expr * stmt *) 
     (* vdecl? *)
 
- type func_decl = {
+
+type var_decl = {
+    varname : string;
+    vartype : typeConst;
+}
+
+type func_decl = {
     rtype : typeConst; (* ? *)
     fname   : string;
-    locals  : string list;
+    locals  : var_decl list;
+    formals : string list;
     body    : stmt list;
 }
-    (*formals : string list;*)
 
-(*?*)
- type var_decl = {
-    vartype : typeConst;
-    varname : string;
+type formal_decl = {
+    fromtype : typeConst;
+    formname : string;
 }
 
-type program = var_decl list * func_decl list
+type program = func_decl list
 
-(* let string_of_expr = function
+(* type program = var_decl list * func_decl list *)
+
+(*
+let string_of_expr = function
     Int(l) -> string_of_int l
     | Dbl(l) -> string_of_float l
     | Id(s) -> s
@@ -50,7 +58,6 @@ type program = var_decl list * func_decl list
     | Assign(v, e) -> v ^ " = " ^ string_of_expr e
     | Call(f, el) -> 
             f ^ "(" ^ String.concat ", " (List.map string_of_expr el) ^ ")"
-    | Noexpr -> ""
 
 let string_of_stmt = function
     Block(stmts) -> "{\n" ^ String.concat "" (List.map string_of_stmt stmts) ^ "}\n"
@@ -80,4 +87,5 @@ let string_of_fdecl fdecl =
 
 let string_of_program (vars, funcs) =
     String.concat "" (List.map string_of_vdecl vars) ^ "\n" ^
-    String.concat "\n" (List.map string_of_fdecl funcs) *)
+    String.concat "\n" (List.map string_of_fdecl funcs)
+*)
