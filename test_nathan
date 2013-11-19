@@ -1,0 +1,16 @@
+function(num, times){
+    while(times!=0){
+        if(num>=0) num = num+num;
+        else num=num*num;
+        times = times - 1;
+    }
+    return num;
+}
+
+main(){
+    print(function(2, 1));
+    print(function(2, 2));
+    print(function(2, 3));
+    print(function(2, 4));
+    print(function(2, 5));
+}
